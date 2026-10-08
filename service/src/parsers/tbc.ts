@@ -32,14 +32,15 @@
 
 import type { RawMessage } from "../db-reader";
 import type { BankParser, Transaction, TransactionKind, TransactionStatus } from "./types";
-import { directionOf } from "./types";
+import { directionOf } from "./types.ts";
+import { isSecurityMessage } from "./security.ts";
 import {
   generateTransactionId,
   parseFlexibleAmount,
   parseDateSlashed,
   stripTrailingNoise,
   mergeDateAndTime,
-} from "./shared";
+} from "./shared.ts";
 
 const BANK_KEY = "TBC";
 
@@ -217,6 +218,7 @@ function parseBillMerchant(text: string): string | null {
 }
 
 function parse(raw: RawMessage): Transaction | null {
+  if (isSecurityMessage(raw.text)) return null;
   // Skip own-account transfers before any further processing.
   if (RE_SELF.test(raw.text)) return null;
 

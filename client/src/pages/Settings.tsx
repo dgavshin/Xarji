@@ -1,3 +1,5 @@
+import { LOCAL_ONLY } from "../lib/local-mode";
+import { LocalSettings } from "./LocalSettings";
 import { useMemo, useState } from "react";
 import { useTheme, useTweaks } from "../ink/theme";
 import { Card, CardTitle, LiveDot, PageHeader, Row, Toggle } from "../ink/primitives";
@@ -7,7 +9,9 @@ import { usePayments, useFailedPayments } from "../hooks/useTransactions";
 import { useCredits } from "../hooks/useCredits";
 import { SettingsAISection } from "../components/SettingsAISection";
 
-export function Settings() {
+export function Settings() { return LOCAL_ONLY ? <LocalSettings /> : <CloudSettings />; }
+
+function CloudSettings() {
   const T = useTheme();
   const { tweaks, setTweaks } = useTweaks();
   const { senders, toggleSender, addSender } = useBankSenders();

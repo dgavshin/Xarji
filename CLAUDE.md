@@ -18,7 +18,8 @@ Read `local/README.md` before editing it. It uses private SQLite and a separatel
 built `client/dist-local` (`bun run build:local`), shares pure TBC/text parsers, and
 starts without Messages access. It must never load cloud config/credentials or
 fall back to InstantDB, AI, webhooks or online exchange rates. The default Bun,
-InstantDB and native release workflow remains unchanged. Run
+InstantDB and native release workflow remains the default. The shared OTP/security
+guard also applies to cloud parsing, before reading a transaction from the SMS. Run
 `node --test local/local.test.mjs` and build both client modes for changes that
 touch this integration. All local-mode fixtures/demo data must be synthetic.
 

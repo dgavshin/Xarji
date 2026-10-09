@@ -96,6 +96,8 @@ transaction parsing, including mixed payment/OTP bodies. This is a conservative
 pattern guard, not a guarantee that every future OTP format is recognised; it may
 also reject a legitimate merchant name containing a security keyword. Source SMS
 and manually prepared input files remain where the operator kept them.
+The same guard protects cloud parsing. Cloud reads also check the full archive
+before text extraction, and security SMS are omitted from parser failure results.
 
 The data directory must be owned by the current OS user, mode `0700`, and not a
 symlink. SQLite, WAL/SHM and capability files are private (`0600`); unsafe existing

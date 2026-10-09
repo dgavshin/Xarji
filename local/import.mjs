@@ -1,12 +1,9 @@
 import { createHash } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
 import { tbcParser } from '../service/src/parsers/tbc.ts';
+import { isSecurityMessage } from '../service/src/parsers/security.ts';
 import { extractTextFromAttributedBody } from '../service/src/message-text.ts';
 import { InputError, SUPPORTED_SENDERS } from './model.mjs';
-
-function isSecurityMessage(text) {
-  return /\b(?:otp|pin|one[ -]?time(?:\s+password)?|verification\s+code|security\s+code|confirmation\s+code|authorization\s+code|authentication\s+code|sms\s+code)\b|\bcode\s*:|\bkodi\b|ერთჯერად|კოდი|პაროლი/iu.test(text);
-}
 
 export function importMessages(store, messages) {
   if (!Array.isArray(messages) || messages.length > 5000) throw new InputError('Expected up to 5000 messages');

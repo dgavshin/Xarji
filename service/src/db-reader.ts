@@ -1,5 +1,6 @@
 import { Database } from "bun:sqlite";
 import { extractTextFromAttributedBody } from "./message-text.ts";
+import { isSecurityMessage } from "./parsers/security.ts";
 import { defaultConfig, type Config } from "./config";
 
 // Apple epoch offset (2001-01-01 vs 1970-01-01)
@@ -86,6 +87,7 @@ export class MessagesDbReader {
     const messages: RawMessage[] = [];
 
     for (const row of rows) {
+      if (isSecurityMessage(row.text ?? "") || (row.attributedBody && isSecurityMessage(new TextDecoder().decode(row.attributedBody)))) continue;
       let text = row.text;
       if (!text && row.attributedBody) {
         text = extractTextFromAttributedBody(row.attributedBody);
@@ -139,6 +141,7 @@ export class MessagesDbReader {
     const messages: RawMessage[] = [];
 
     for (const row of rows) {
+      if (isSecurityMessage(row.text ?? "") || (row.attributedBody && isSecurityMessage(new TextDecoder().decode(row.attributedBody)))) continue;
       let text = row.text;
       if (!text && row.attributedBody) {
         text = extractTextFromAttributedBody(row.attributedBody);

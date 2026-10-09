@@ -163,7 +163,9 @@ SMS are incomplete evidence, **not a bank statement or verified balance**. Missi
 notifications, changed formats, duplicates from multiple forwarding sources,
 own-account transfers skipped by the parser and unsupported archives can affect
 totals. Reversals are represented as incoming credits; they are not matched back
-to the original purchase. Budgets and the must-pay pot are manually maintained.
+to the original purchase. This mode reuses the existing TBC parser without adding
+SMS formats: single-star card masks such as `(*0000)` and English declined-payment
+notifications are currently unsupported. Budgets and the must-pay pot are manually maintained.
 This mode has no automatic backup, encrypted vault, export restore, reconciliation,
 mobile app or production security audit. Dependencies are fetched during setup;
 runtime code does not make external requests. Keep the cloud build (`bun run build`)

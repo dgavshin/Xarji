@@ -37,9 +37,11 @@ test('private storage and separate capabilities; reject world-readable paths and
 
 test('ordinary, Georgian and mixed security messages cannot enter parser or storage', t => {
   const { store } = fixture(t);
-  const security = ['Your OTP is 654321', 'ერთჯერადი კოდი: 654321', `${payment}\nSMS Code: 654321`, `${payment}\nVerification code 654321`, `${payment}\nPIN: 654321`];
-  for (const text of security) assert.equal(tbcParser.parse({ ...message(1, text), timestamp: new Date() }), null);
+  const security = ['Your OTP is 654321', 'ერთჯერადი კოდი: 654321', 'Sms Code:654321\nPlease check that you enter this code only on https://tbconline.ge or in mobilebank', `${payment}\nSMS Code: 654321`, `${payment}\nVerification code 654321`, `${payment}\nPIN: 654321`];
+  const parse = t.mock.method(tbcParser, 'parse');
   const result = importMessages(store, [message(), ...security.map((s, i) => message(i + 2, s)), message(20, payment, 'PRIVATE FRIEND')]);
+  assert.equal(parse.mock.callCount(), 1);
+  assert.equal(parse.mock.calls[0].arguments[0].text, payment);
   assert.equal(result.imported, 1); assert.equal(result.securitySkipped, security.length); assert.equal(result.unsupported, 1);
   const snapshot = JSON.stringify(store.snapshot());
   for (const forbidden of ['rawMessage', 'Nashti', '912345.67', '654321', 'PRIVATE FRIEND', 'balance', 'failureReason']) assert.ok(!snapshot.includes(forbidden), forbidden);

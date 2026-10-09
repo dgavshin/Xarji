@@ -31,7 +31,6 @@ export default defineConfig(({ mode }) => ({
     __XARJI_DEMO_ALLOWED__: JSON.stringify(mode === "development"),
   },
   server: {
-    host: "127.0.0.1",
     proxy: {
       "/api": {
         target: API_TARGET,

@@ -419,7 +419,7 @@ export function Transactions() {
                     const merchant = selected.merchant || selected.counterparty || "Unknown";
                     if (
                       !window.confirm(
-                        `Delete this transaction?\n\n${merchant} · ${amountStr} · ${dateStr}\n\nIt will be removed from the ledger and tombstoned so the next SMS sync won't re-import it. This cannot be undone.`
+                        `Delete this transaction?\n\n${merchant} · ${amountStr} · ${dateStr}\n\nIt will be removed from ${LOCAL_ONLY ? "the local ledger" : "InstantDB"} and tombstoned so the next SMS sync won't re-import it. This cannot be undone.`
                       )
                     ) {
                       return;
@@ -561,7 +561,7 @@ function DeleteRow({
         type="button"
         onClick={handle}
         disabled={busy}
-        title="Remove this transaction from the ledger and tombstone it so SMS resyncs don't re-import it"
+        title={`Remove this transaction from ${LOCAL_ONLY ? "the local ledger" : "InstantDB"} and tombstone it so SMS resyncs don't re-import it`}
         style={{
           padding: "4px 10px",
           borderRadius: 999,

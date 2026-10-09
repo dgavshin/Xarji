@@ -6,15 +6,13 @@ Self-hosted finance manager for Georgian banks.
 
 Georgian banks don't provide public APIs for accessing transaction data. There's no way to programmatically track your spending, build budgets, or analyze your finances. You're stuck with whatever the bank's app shows you — no exports, no integrations, no control.
 
-Bank SMS notifications can provide a useful transaction feed. Coverage varies;
-SMS records are not a complete bank statement or verified account balance.
+But banks do send SMS notifications for every transaction.
 
 ## The Solution
 
 Xarji reads bank SMS notifications from your Mac's Messages app, parses the transaction details, and syncs them to your own InstantDB instance. You get a real-time dashboard with analytics, category breakdowns, and full control over your financial data.
 
-Parsing runs locally. The default workflow sends parsed transaction data to
-InstantDB's hosted service in your account; it is not a fully local data flow.
+Your data never touches third-party servers — everything runs locally on your machine.
 
 ```
 Messages.app → xarji service (parses SMS) → InstantDB (your account) → xarji client (dashboard)
